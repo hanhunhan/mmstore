@@ -1,0 +1,310 @@
+{
+  "manifestVersion": "3.2",
+  "proxies": [
+    {
+      "address": "0x0D524c051D7F0AdAf4aDe1Cd273f3e4C53aD9D7D",
+      "txHash": "0x4e36b7b38b12533363715185098ef98ef3cd69a6a390d7cd4fb31a8ff6040e20",
+      "kind": "uups"
+    }
+  ],
+  "impls": {
+    "ee7aafc25a07fc0b730340cbaa59353ea1a7559d67e87cac2ac5b2004d6d6cbd": {
+      "address": "0xcFcb9bD5C738aa273c7F5d7b3e918ff1431d5Bf0",
+      "txHash": "0x0e336bbf674f86fc2b42e383f2a83300e44600b4702c52ffde096ca732f3f68d",
+      "layout": {
+        "solcVersion": "0.8.18",
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_uint8",
+            "src": "project:\\lib\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "project:\\lib\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "project:\\lib\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "project:\\lib\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "project:\\lib\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:94"
+          },
+          {
+            "contract": "ERC1967UpgradeUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "project:\\lib\\contracts-upgradeable\\proxy\\ERC1967\\ERC1967UpgradeUpgradeable.sol:197"
+          },
+          {
+            "contract": "UUPSUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "project:\\lib\\contracts-upgradeable\\proxy\\utils\\UUPSUpgradeable.sol:107"
+          },
+          {
+            "contract": "MMStore",
+            "label": "btbConfig",
+            "type": "t_contract(ACConfig)823",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:36"
+          },
+          {
+            "contract": "MMStore",
+            "label": "users",
+            "type": "t_array(t_struct(User)3213_storage)dyn_storage",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:38"
+          },
+          {
+            "contract": "MMStore",
+            "label": "machineArr",
+            "type": "t_array(t_struct(MiningMachine)3190_storage)dyn_storage",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:38"
+          },
+          {
+            "contract": "MMStore",
+            "label": "claimOrderArr",
+            "type": "t_array(t_struct(ClaimOrder)3197_storage)dyn_storage",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:40"
+          },
+          {
+            "contract": "MMStore",
+            "label": "transferNoOrder",
+            "type": "t_array(t_struct(TransferOrder)3206_storage)dyn_storage",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:42"
+          },
+          {
+            "contract": "MMStore",
+            "label": "transferMaxOrder",
+            "type": "t_array(t_struct(TransferOrder)3206_storage)dyn_storage",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:44"
+          },
+          {
+            "contract": "MMStore",
+            "label": "ref",
+            "type": "t_mapping(t_address,t_address)",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:47"
+          },
+          {
+            "contract": "MMStore",
+            "label": "userMachine",
+            "type": "t_mapping(t_address,t_array(t_uint256)dyn_storage)",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:49"
+          },
+          {
+            "contract": "MMStore",
+            "label": "isBuyMachine",
+            "type": "t_mapping(t_address,t_bool)",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:49"
+          },
+          {
+            "contract": "MMStore",
+            "label": "isAutoCancel",
+            "type": "t_mapping(t_string_memory_ptr,t_bool)",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:50"
+          },
+          {
+            "contract": "MMStore",
+            "label": "claimedAmount",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:52"
+          },
+          {
+            "contract": "MMStore",
+            "label": "noOrderPool",
+            "type": "t_uint256",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:53"
+          },
+          {
+            "contract": "MMStore",
+            "label": "maxOrderPool",
+            "type": "t_uint256",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:55"
+          },
+          {
+            "contract": "MMStore",
+            "label": "lastOrderTime",
+            "type": "t_uint256",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:55"
+          },
+          {
+            "contract": "MMStore",
+            "label": "maxOrderIndex",
+            "type": "t_uint256",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:56"
+          },
+          {
+            "contract": "MMStore",
+            "label": "lastMaxOrderSettleTime",
+            "type": "t_uint256",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:58"
+          },
+          {
+            "contract": "MMStore",
+            "label": "dynamicReward",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_uint256))",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:62"
+          },
+          {
+            "contract": "MMStore",
+            "label": "claimDynOrderArr",
+            "type": "t_array(t_struct(ClaimOrder)3197_storage)dyn_storage",
+            "src": "project:\\lib\\contracts\\token\\ERC20\\ERC20.sol:64"
+          }
+        ],
+        "types": {
+          "t_contract(ACConfig)823": {
+            "label": "contract ACConfig"
+          },
+          "t_array(t_struct(User)3213_storage)dyn_storage": {
+            "label": "struct IMMStore.User[]"
+          },
+          "t_struct(User)3213_storage": {
+            "label": "struct IMMStore.User",
+            "members": [
+              {
+                "label": "user",
+                "type": "t_address"
+              },
+              {
+                "label": "ref",
+                "type": "t_address"
+              },
+              {
+                "label": "registerTime",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_array(t_struct(MiningMachine)3190_storage)dyn_storage": {
+            "label": "struct IMMStore.MiningMachine[]"
+          },
+          "t_struct(MiningMachine)3190_storage": {
+            "label": "struct IMMStore.MiningMachine",
+            "members": [
+              {
+                "label": "user",
+                "type": "t_address"
+              },
+              {
+                "label": "computingPower",
+                "type": "t_uint256"
+              },
+              {
+                "label": "createTime",
+                "type": "t_uint256"
+              },
+              {
+                "label": "lastTime",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_array(t_struct(ClaimOrder)3197_storage)dyn_storage": {
+            "label": "struct IMMStore.ClaimOrder[]"
+          },
+          "t_struct(ClaimOrder)3197_storage": {
+            "label": "struct IMMStore.ClaimOrder",
+            "members": [
+              {
+                "label": "user",
+                "type": "t_address"
+              },
+              {
+                "label": "amount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "orderType",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_array(t_struct(TransferOrder)3206_storage)dyn_storage": {
+            "label": "struct IMMStore.TransferOrder[]"
+          },
+          "t_struct(TransferOrder)3206_storage": {
+            "label": "struct IMMStore.TransferOrder",
+            "members": [
+              {
+                "label": "user",
+                "type": "t_address"
+              },
+              {
+                "label": "amount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "number",
+                "type": "t_uint256"
+              },
+              {
+                "label": "timestamp",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)"
+          },
+          "t_mapping(t_address,t_array(t_uint256)dyn_storage)": {
+            "label": "mapping(address => uint256[])"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_mapping(t_string_memory_ptr,t_bool)": {
+            "label": "mapping(string => bool)"
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_uint256))": {
+            "label": "mapping(address => mapping(uint256 => uint256))"
+          },
+          "t_mapping(t_uint256,t_uint256)": {
+            "label": "mapping(uint256 => uint256)"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_uint8": {
+            "label": "uint8"
+          }
+        }
+      }
+    }
+  }
+}

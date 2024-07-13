@@ -1,0 +1,45 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/interface/IMMStore.sol": "IMMStore"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/interface/IMMStore.sol": {
+			"keccak256": "0x8b451678e1bd9713f4eb9b73eb50a692596c3e3ee3c09eea1c10810fefc67514",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://376269432b707de1fbccc866199bd25d22fa27350dda4a23da93a38194660be8",
+				"dweb:/ipfs/QmXhNRjtCFcVahjioeFULbYzt7MgnPSEa3STT5YhwBYdUA"
+			]
+		}
+	},
+	"version": 1
+}
