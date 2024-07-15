@@ -17,11 +17,11 @@ contract ACConfig is OwnableUpgradeable,UUPSUpgradeable{
     address constant public top = 0xd220B3cf1E4660C5509418B42A86d7945E6E2e18;
 
     address public usdt;
-    address public btb;
-    address public usb;
+    address public acb;
+    address public mv;
     address public mmStore;
     address public minePool;
-    address public btbPair;
+    address public acbPair;
 
 
     address public platformAddress;
@@ -29,7 +29,7 @@ contract ACConfig is OwnableUpgradeable,UUPSUpgradeable{
     uint256 public platformRate;//usb swap to usdt ,usdt transfer to platform address rate
     uint256 public swapRate;//usb swap to usdt rate
 
-    address public usbCollectionAddress;
+    address public mvCollectionAddress;
     address public techAddress;
     address public marketAddress;
 
@@ -80,7 +80,7 @@ contract ACConfig is OwnableUpgradeable,UUPSUpgradeable{
         platformRate = 900;
         swapRate = 1000;
 
-        usbCollectionAddress = 0xFAe25F1Ae4B758D7C96D7Eb075B62af4F3398b89;
+        mvCollectionAddress = 0xFAe25F1Ae4B758D7C96D7Eb075B62af4F3398b89;
         techAddress = 0x7FbA7858083836D9169eb3bE21A48189E1798c8e;
         marketAddress = 0x2737ac6359664096f22863088246d885F14E6FF2;
         
@@ -162,13 +162,13 @@ contract ACConfig is OwnableUpgradeable,UUPSUpgradeable{
         userArr.push(_user);
     }
 
-    function setConfig(address _usdt,address _usb,address _btb,address _minePool,address _mmStore,address _btbPair)external onlyAdmin{
+    function setConfig(address _usdt,address _mv,address _acb,address _minePool,address _mmStore,address _acbPair)external onlyAdmin{
         usdt = _usdt;
-        usb = _usb;
-        btb = _btb;
+        mv = _mv;
+        acb = _acb;
         minePool = _minePool;
         mmStore = _mmStore;
-        btbPair = _btbPair;
+        acbPair = _acbPair;
     }
 
 
@@ -225,8 +225,8 @@ contract ACConfig is OwnableUpgradeable,UUPSUpgradeable{
         maxComputingPower = _maxComputingPower;
     }
 
-    function changeUsbCollectionAddress(address _usbCollectionAddress) external onlyAdmin{
-        usbCollectionAddress = _usbCollectionAddress;
+    function changeMvCollectionAddress(address _mvCollectionAddress) external onlyAdmin{
+        mvCollectionAddress = _mvCollectionAddress;
     }
 
     function changeTechAddress(address _techAddress) external onlyAdmin{

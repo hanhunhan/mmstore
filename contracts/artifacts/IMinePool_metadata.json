@@ -52,19 +52,19 @@
 	},
 	"sources": {
 		"contracts/ACConfig.sol": {
-			"keccak256": "0xe1ccbc6cbf5391665b3089c4450f5514c9707455c90d293dcea6a5af69163956",
+			"keccak256": "0x4b2ac3a1800d5c946a550d6d8f03ba4f29acb5a931d446b3189e430ba76c9f50",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://9cfb9b8366637cd9c14c64c052a0c53d478377a88f4c12f893bb8febbed420b6",
-				"dweb:/ipfs/QmePCgoRuMVkYiMmHPvJzWzuykqvmp9dRPbv6ocXi2gg6e"
+				"bzz-raw://baf17ba80513847b6c922793cae82f38647a56633b1bf319d53555cb55bbe2b7",
+				"dweb:/ipfs/Qmcvp1wB5wdnvqwW4jWtQZHXxmkgo9xbcqpYFhxCzUtWbk"
 			]
 		},
 		"contracts/MMStore.sol": {
-			"keccak256": "0xbbb6ce6512f6ad466aae00b87de91b811d346600b7d41e18419b1d0499f0a13e",
+			"keccak256": "0x1ea1062e1db5071e45c3c2ffeefebb7e8575e480202b1a87bab623d1cf6f8427",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://d9adee20151dc1a35333495be2899f64710dc081b8eb2bdb427de157b906524b",
-				"dweb:/ipfs/QmSn65msVkXpbSYuJfGLnECdR7jrWuUxmxtnCHRoKZq5P4"
+				"bzz-raw://f55ae427ae0042d566468c1638ac1b7837ad5fd2e35cbacd53106a931e72b0e2",
+				"dweb:/ipfs/QmSKBkS6H4NfDaYpvrJwHoQZW499enTLRUVfthJFkyMYsr"
 			]
 		},
 		"contracts/interface/IMMStore.sol": {

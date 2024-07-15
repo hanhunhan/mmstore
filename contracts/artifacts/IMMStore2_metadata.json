@@ -52,11 +52,11 @@
 	},
 	"sources": {
 		"contracts/ACConfig.sol": {
-			"keccak256": "0x4ea080f8e8e8e7a850ad9a20becd893bf1267a1a4b02364353d8b69519d15e94",
+			"keccak256": "0x4b2ac3a1800d5c946a550d6d8f03ba4f29acb5a931d446b3189e430ba76c9f50",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://4d225144fe313fc6e914cb4fc08f658d20bad6cbd58a4b1a230c750df3a1eb74",
-				"dweb:/ipfs/QmeRH5CBJEYyfdEzXZsZpc9caiL2t8bsW8Bn5L5MySQtZo"
+				"bzz-raw://baf17ba80513847b6c922793cae82f38647a56633b1bf319d53555cb55bbe2b7",
+				"dweb:/ipfs/Qmcvp1wB5wdnvqwW4jWtQZHXxmkgo9xbcqpYFhxCzUtWbk"
 			]
 		},
 		"contracts/pair/IBTBPair.sol": {

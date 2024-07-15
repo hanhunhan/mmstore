@@ -19,7 +19,7 @@ import {ACConfig} from "./ACConfig.sol";
 import {IMMStore} from "./interface/IMMStore.sol";
 
 
-interface IBTBPair_ {
+interface IACBPair_ {
     function token0()external view returns (address);
     function remove(uint256 amount0,uint256 amount1,address to) external;
     function simpleSwap(address token,address to, uint256 amountIn) external returns(uint256 amountOut);
@@ -35,7 +35,7 @@ interface IMinePool {
 
 contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
 
-    ACConfig public btbConfig;
+    ACConfig public acbConfig;
 
     User[] public users;
     MiningMachine[] public machineArr;
@@ -70,16 +70,16 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
     error NotConfig();
 
     modifier onlyConfig(){
-        if(msg.sender != address(btbConfig)) revert NotConfig();
+        if(msg.sender != address(acbConfig)) revert NotConfig();
         _;
     }
 
     function initialize(address _acbConfig)external initializer{
         __Ownable_init();
 
-        btbConfig = ACConfig(_acbConfig);
+        acbConfig = ACConfig(_acbConfig);
         users.push(
-            User(btbConfig.top(),address(0),block.timestamp)
+            User(acbConfig.top(),address(0),block.timestamp)
         );
     }
 
@@ -87,7 +87,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
     function _authorizeUpgrade(address) internal override onlyOwner {}
 
     function changeConfig(address _acbConfig)external onlyOwner{
-        btbConfig = ACConfig(_acbConfig);
+        acbConfig = ACConfig(_acbConfig);
     }
 
     function register(address _refAddress)external {
@@ -119,7 +119,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
 
         IERC20Upgradeable(_usdt()).transferFrom(msg.sender, address(this), amount / 2);
 	if(bType == 0){
-		IERC20Upgradeable(btbConfig.usb()).transferFrom(msg.sender, btbConfig.usbCollectionAddress(), amount / 2 * btbConfig.swapRate() / 1000);
+		IERC20Upgradeable(acbConfig.mv()).transferFrom(msg.sender, acbConfig.mvCollectionAddress(), amount / 2 * acbConfig.swapRate() / 1000);
 	} else {
 		uint256 bPrice = _acbPrice();
 		IERC20Upgradeable(_acb()).transferFrom(msg.sender, address(1), amount / 2 / bPrice * 1e18 );
@@ -130,21 +130,21 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
         isBuyMachine[msg.sender] = true;
 
         //distribute usdt
-        IERC20Upgradeable(_usdt()).transfer(btbConfig.techAddress(), amount / 2 * 20 / 1000); //2% to tech fee
-        IERC20Upgradeable(_usdt()).transfer(btbConfig.marketAddress(), amount / 2 * 20 / 1000); //2% to market fee
+        IERC20Upgradeable(_usdt()).transfer(acbConfig.techAddress(), amount / 2 * 20 / 1000); //2% to tech fee
+        IERC20Upgradeable(_usdt()).transfer(acbConfig.marketAddress(), amount / 2 * 20 / 1000); //2% to market fee
 
         //20% buy acb to mine pool
-        IERC20Upgradeable(_usdt()).approve(_btbPair(), amount / 2 * 200 / 1000);
-        IBTBPair_(_btbPair()).simpleSwap(_usdt(), _minePool(), amount / 2 * 200 / 1000);
+        IERC20Upgradeable(_usdt()).approve(_acbPair(), amount / 2 * 200 / 1000);
+        IACBPair_(_acbPair()).simpleSwap(_usdt(), _minePool(), amount / 2 * 200 / 1000);
 
         //70% add lp
         uint256 uAmount = amount / 2 * 700 / 1000;
-        (uint112 _reserve0, uint112 _reserve1,) = IBTBPair_(_btbPair()).getReserves();
-        (uint112 _reserveU,uint112 _reserveB) = IBTBPair_(_btbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
+        (uint112 _reserve0, uint112 _reserve1,) = IACBPair_(_acbPair()).getReserves();
+        (uint112 _reserveU,uint112 _reserveB) = IACBPair_(_acbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
         uint256 bAmount = _reserveB * uAmount / _reserveU;
-        IERC20Upgradeable(_usdt()).transfer(_btbPair(), uAmount);
-        IMinePool(_minePool()).withdraw(_btbPair(), bAmount);
-        IBTBPair_(_btbPair()).mint(address(1));
+        IERC20Upgradeable(_usdt()).transfer(_acbPair(), uAmount);
+        IMinePool(_minePool()).withdraw(_acbPair(), bAmount);
+        IACBPair_(_acbPair()).mint(address(1));
 
         _settleNoOrderReward();
         _settleMaxOrderReward();
@@ -163,7 +163,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
         uint256 bPrice = _acbPrice();
         for(uint256 i = 0; i < machines.length; ++i){
             MiningMachine storage machine = machineArr[machines[i]];
-            if(block.timestamp - machine.lastTime <= btbConfig.claimInterval()) revert TimeNotYet();
+            if(block.timestamp - machine.lastTime <= acbConfig.claimInterval()) revert TimeNotYet();
 
             uint256 settleTime = block.timestamp < machine.createTime + _machineExpireTime() ? block.timestamp : 
                                                                                                machine.createTime + _machineExpireTime();
@@ -194,7 +194,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
         bytes32 ethSignMsg = ECDSAUpgradeable.toEthSignedMessageHash(_getMessageHash(user, refAmount, team, sameLevel, share));
         address recoverAddress = ECDSAUpgradeable.recover(ethSignMsg, signature);
 
-        if(btbConfig.operator() != recoverAddress) revert NotOp();
+        if(acbConfig.operator() != recoverAddress) revert NotOp();
   
         uint256 refClaimed = dynamicReward[user][0];
         uint256 teamClaimed = dynamicReward[user][1];
@@ -233,13 +233,13 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
     function swap(uint256 amount)external {
         IERC20Upgradeable(_acb()).transferFrom(msg.sender,address(1),amount);//to zero
 
-        (uint112 _reserve0, uint112 _reserve1,) = IBTBPair_(_btbPair()).getReserves();
-        (uint112 _reserveU,uint112 _reserveB) = IBTBPair_(_btbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
+        (uint112 _reserve0, uint112 _reserve1,) = IACBPair_(_acbPair()).getReserves();
+        (uint112 _reserveU,uint112 _reserveB) = IACBPair_(_acbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
 
-        uint256 uAmount = IBTBPair_(_btbPair()).getAmountOut(amount, _reserveB, _reserveU);
+        uint256 uAmount = IACBPair_(_acbPair()).getAmountOut(amount, _reserveB, _reserveU);
         uint256 bAmount = _reserveB * uAmount / _reserveU;
-        (uint256 amount0,uint256 amount1) = IBTBPair_(_btbPair()).token0() == _usdt() ? (uAmount,bAmount) : (bAmount,uAmount);
-        IBTBPair_(_btbPair()).remove(amount0, amount1, address(this));
+        (uint256 amount0,uint256 amount1) = IACBPair_(_acbPair()).token0() == _usdt() ? (uAmount,bAmount) : (bAmount,uAmount);
+        IACBPair_(_acbPair()).remove(amount0, amount1, address(this));
 
         IERC20Upgradeable(_usdt()).transfer(msg.sender,uAmount);
         IERC20Upgradeable(_acb()).transfer(_minePool(),bAmount);
@@ -251,18 +251,18 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
 
     function syncPool()public {
         uint256 minePoolBalance = IERC20Upgradeable(_acb()).balanceOf(_minePool());
-        uint256 lpBalance = IERC20Upgradeable(_acb()).balanceOf(_btbPair());
+        uint256 lpBalance = IERC20Upgradeable(_acb()).balanceOf(_acbPair());
 
         if(lpBalance <= minePoolBalance + minePoolBalance * 50 / 1000) return;
 
         //remove lp 1%
-        (uint112 _reserve0, uint112 _reserve1,) = IBTBPair_(_btbPair()).getReserves();
-        IBTBPair_(_btbPair()).remove(_reserve0 * 10 / 1000, _reserve1 * 10 / 1000, address(this));
-        (uint112 _reserveU,uint112 _reserveB) = IBTBPair_(_btbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
+        (uint112 _reserve0, uint112 _reserve1,) = IACBPair_(_acbPair()).getReserves();
+        IACBPair_(_acbPair()).remove(_reserve0 * 10 / 1000, _reserve1 * 10 / 1000, address(this));
+        (uint112 _reserveU,uint112 _reserveB) = IACBPair_(_acbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
 
         IERC20Upgradeable(_acb()).transfer(_minePool(),_reserveB * 10 / 1000);
-        IERC20Upgradeable(_usdt()).approve(_btbPair(),_reserveU * 10 / 1000);
-        IBTBPair_(_btbPair()).simpleSwap(_usdt(), _minePool(), _reserveU * 10 / 1000);
+        IERC20Upgradeable(_usdt()).approve(_acbPair(),_reserveU * 10 / 1000);
+        IACBPair_(_acbPair()).simpleSwap(_usdt(), _minePool(), _reserveU * 10 / 1000);
 
     }
 
@@ -283,18 +283,18 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
         isAutoCancel[dateString] = true;
 
         //remove lp 1%
-        (uint112 _reserve0, uint112 _reserve1,) = IBTBPair_(_btbPair()).getReserves();
+        (uint112 _reserve0, uint112 _reserve1,) = IACBPair_(_acbPair()).getReserves();
         
-        IBTBPair_(_btbPair()).remove(_reserve0 * 10 / 1000, _reserve1 * 10 / 1000, address(this));
-        (uint112 _reserveU,uint112 _reserveB) = IBTBPair_(_btbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
+        IACBPair_(_acbPair()).remove(_reserve0 * 10 / 1000, _reserve1 * 10 / 1000, address(this));
+        (uint112 _reserveU,uint112 _reserveB) = IACBPair_(_acbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
 
         IERC20Upgradeable(_acb()).transfer(_minePool(),_reserveB * 10 / 1000);
-        IERC20Upgradeable(_usdt()).approve(_btbPair(),_reserveU * 10 / 1000 / 2);
-        uint256 amountOut = IBTBPair_(_btbPair()).simpleSwap(_usdt(), address(this), _reserveU * 10 / 1000 / 2);
+        IERC20Upgradeable(_usdt()).approve(_acbPair(),_reserveU * 10 / 1000 / 2);
+        uint256 amountOut = IACBPair_(_acbPair()).simpleSwap(_usdt(), address(this), _reserveU * 10 / 1000 / 2);
 
-        IERC20Upgradeable(_acb()).transfer(_btbPair(),amountOut);
-        IERC20Upgradeable(_usdt()).transfer(_btbPair(), _reserveU * 10 / 1000 / 2);
-        IBTBPair_(_btbPair()).mint(address(1));
+        IERC20Upgradeable(_acb()).transfer(_acbPair(),amountOut);
+        IERC20Upgradeable(_usdt()).transfer(_acbPair(), _reserveU * 10 / 1000 / 2);
+        IACBPair_(_acbPair()).mint(address(1));
 
     }
 
@@ -302,9 +302,9 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
 
 
     function _acbPrice()internal view returns(uint256) {
-        (uint112 _reserve0, uint112 _reserve1,) = IBTBPair_(_btbPair()).getReserves();
-        (uint112 _reserveU,uint112 _reserveB) = IBTBPair_(_btbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
-        return IBTBPair_(_btbPair()).getAmountOut(1 ether, _reserveB, _reserveU);
+        (uint112 _reserve0, uint112 _reserve1,) = IACBPair_(_acbPair()).getReserves();
+        (uint112 _reserveU,uint112 _reserveB) = IACBPair_(_acbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
+        return IACBPair_(_acbPair()).getAmountOut(1 ether, _reserveB, _reserveU);
     }
 
 
@@ -343,27 +343,27 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
 
     
     function _minePool()internal view returns(address){
-        return btbConfig.minePool();
+        return acbConfig.minePool();
     }
 
     function _usdt()internal view returns(address){
-        return btbConfig.usdt();
+        return acbConfig.usdt();
     }
 
     function _acb()internal view returns(address){
-        return btbConfig.btb();
+        return acbConfig.acb();
     }
 
     function _btbtestup2()external view returns(address){
-        return btbConfig.btb();
+        return acbConfig.acb();
     }
 
-    function _btbPair()internal view returns(address){
-        return btbConfig.btbPair();
+    function _acbPair()internal view returns(address){
+        return acbConfig.acbPair();
     }
 
     function _machineExpireTime()internal view returns(uint256){
-        return btbConfig.machineExpireTime();
+        return acbConfig.machineExpireTime();
     }
 
 
@@ -415,9 +415,9 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
     }
 
     function swapOutAmount(uint256 amount)external view returns(uint256) {
-        (uint112 _reserve0, uint112 _reserve1,) = IBTBPair_(_btbPair()).getReserves();
-        (uint112 _reserveU,uint112 _reserveB) = IBTBPair_(_btbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
-        return IBTBPair_(_btbPair()).getAmountOut(amount, _reserveB, _reserveU);
+        (uint112 _reserve0, uint112 _reserve1,) = IACBPair_(_acbPair()).getReserves();
+        (uint112 _reserveU,uint112 _reserveB) = IACBPair_(_acbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
+        return IACBPair_(_acbPair()).getAmountOut(amount, _reserveB, _reserveU);
     }
 
     function computingPower(address user)external view returns(uint256 amount){
@@ -439,7 +439,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
         for(uint256 i = 0; i < machines.length; ++i){
             MiningMachine memory machine = machineArr[machines[i]];
 
-            if(block.timestamp - machine.lastTime <= btbConfig.claimInterval()){
+            if(block.timestamp - machine.lastTime <= acbConfig.claimInterval()){
                 canClaim = false;
             }
             uint256 settleTime = block.timestamp < machine.createTime + _machineExpireTime() ? block.timestamp : machine.createTime + _machineExpireTime();
@@ -510,8 +510,8 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
 
         for(uint256 i = 0; i < idList.length; i++){
             MiningMachine memory mm = machineArr[idList[i]];
-            uint256 countdown = mm.createTime + btbConfig.machineExpireTime() > block.timestamp ? 
-                                            mm.createTime + btbConfig.machineExpireTime() - block.timestamp : 0;
+            uint256 countdown = mm.createTime + acbConfig.machineExpireTime() > block.timestamp ? 
+                                            mm.createTime + acbConfig.machineExpireTime() - block.timestamp : 0;
             list[i] = MachineResponse(mm.computingPower,mm.createTime,countdown,mm.lastTime);
         }
     }
