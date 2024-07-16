@@ -170,19 +170,19 @@
 	},
 	"sources": {
 		"contracts/ACConfig.sol": {
-			"keccak256": "0x4b2ac3a1800d5c946a550d6d8f03ba4f29acb5a931d446b3189e430ba76c9f50",
+			"keccak256": "0x8e1389eda0f490f15fd58e34566c8efe8537eabbf95d525e1fcf0ad872c5fdca",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://baf17ba80513847b6c922793cae82f38647a56633b1bf319d53555cb55bbe2b7",
-				"dweb:/ipfs/Qmcvp1wB5wdnvqwW4jWtQZHXxmkgo9xbcqpYFhxCzUtWbk"
+				"bzz-raw://1ca4f617aeb9b1d6c505fa5b558b852251eaa8fe06d7dc9e5d3d8ad339e244ef",
+				"dweb:/ipfs/QmXe8JRQ5R42EFqRSRXhugdbr72V7HrCTPCbZ2DGT72tdv"
 			]
 		},
 		"contracts/MMStore.sol": {
-			"keccak256": "0x1ea1062e1db5071e45c3c2ffeefebb7e8575e480202b1a87bab623d1cf6f8427",
+			"keccak256": "0x0211f4842e793c6da60113c7ee04f78dd19640ce4e0cf6d4f9c4f44a38d59943",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://f55ae427ae0042d566468c1638ac1b7837ad5fd2e35cbacd53106a931e72b0e2",
-				"dweb:/ipfs/QmSKBkS6H4NfDaYpvrJwHoQZW499enTLRUVfthJFkyMYsr"
+				"bzz-raw://ffb276bf7aca867e42d54672f7d0d54b3d44dec9829f3a8941f01734e1440657",
+				"dweb:/ipfs/QmNgWj2SRM8Za7FXJgY3J8JsvBAbMPaKofQiTx5tSYqbfZ"
 			]
 		},
 		"contracts/interface/IMMStore.sol": {

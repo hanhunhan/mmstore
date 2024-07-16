@@ -58,6 +58,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
     mapping(address => mapping(uint256 => uint256)) dynamicReward;
 
     ClaimOrder[] public claimDynOrderArr;
+  
 
 
 
@@ -68,6 +69,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
     error TimeNotYet();
     error NotOp();
     error NotConfig();
+    error Buylock();
 
     modifier onlyConfig(){
         if(msg.sender != address(acbConfig)) revert NotConfig();
@@ -103,6 +105,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
         //autoCancelLp();
     }
 
+
     function airdropMachine(address user,uint256 amount) external onlyConfig{
         if(ref[user] == address(0)) revert NoRegistered();
         userMachine[user].push(machineArr.length);
@@ -116,7 +119,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
     function buyMachine(uint256 amount,uint256 bType)external {
 
         //if(ref[msg.sender] == address(0)) revert NoRegistered();
-
+        if(acbConfig.buylocked() == 1) revert Buylock();
         IERC20Upgradeable(_usdt()).transferFrom(msg.sender, address(this), amount / 2);
 	if(bType == 0){
 		IERC20Upgradeable(acbConfig.mv()).transferFrom(msg.sender, acbConfig.mvCollectionAddress(), amount / 2 * acbConfig.swapRate() / 1000);
@@ -354,7 +357,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
         return acbConfig.acb();
     }
 
-    function _btbtestup2()external view returns(address){
+    function _btbtestup1()external view returns(address){
         return acbConfig.acb();
     }
 
@@ -413,6 +416,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
     function acbPrice()external view returns(uint256) {
         return _acbPrice();
     }
+    
 
     function swapOutAmount(uint256 amount)external view returns(uint256) {
         (uint112 _reserve0, uint112 _reserve1,) = IACBPair_(_acbPair()).getReserves();

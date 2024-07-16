@@ -14,7 +14,7 @@ interface IMMStore2 {
 }
 
 contract ACConfig is OwnableUpgradeable,UUPSUpgradeable{
-    address constant public top = 0xd220B3cf1E4660C5509418B42A86d7945E6E2e18;
+    address constant public top = 0xf51446f195D697ED51235e7B382Fc170503E1976;
 
     address public usdt;
     address public acb;
@@ -57,7 +57,7 @@ contract ACConfig is OwnableUpgradeable,UUPSUpgradeable{
     mapping(address => bool) admin;
 
     uint256 public maxComputingPower;
-
+    uint public buylocked = 0;
 
     struct Level {
         uint256 amount;
@@ -251,6 +251,9 @@ contract ACConfig is OwnableUpgradeable,UUPSUpgradeable{
 
     function changePlatformRate(uint256 _platformRate)external onlyAdmin {
         platformRate = _platformRate;
+    }
+     function changeBuylock(uint _buylocked)external onlyAdmin {
+        buylocked = _buylocked;
     }
 
 
