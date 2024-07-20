@@ -155,7 +155,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/MMStore.sol": "IACBPair_"
+			"contracts/MMStoreUp.sol": "IACBPair_"
 		},
 		"evmVersion": "shanghai",
 		"libraries": {},
@@ -169,20 +169,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/ACConfig.sol": {
-			"keccak256": "0x8e1389eda0f490f15fd58e34566c8efe8537eabbf95d525e1fcf0ad872c5fdca",
+		"contracts/MMStoreUp.sol": {
+			"keccak256": "0xad3f00a15c018cdcffba8314d8e37dc5d1e28b86ab820dfd744c2b61ec2cd8ab",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://1ca4f617aeb9b1d6c505fa5b558b852251eaa8fe06d7dc9e5d3d8ad339e244ef",
-				"dweb:/ipfs/QmXe8JRQ5R42EFqRSRXhugdbr72V7HrCTPCbZ2DGT72tdv"
-			]
-		},
-		"contracts/MMStore.sol": {
-			"keccak256": "0x0211f4842e793c6da60113c7ee04f78dd19640ce4e0cf6d4f9c4f44a38d59943",
-			"license": "UNLICENSED",
-			"urls": [
-				"bzz-raw://ffb276bf7aca867e42d54672f7d0d54b3d44dec9829f3a8941f01734e1440657",
-				"dweb:/ipfs/QmNgWj2SRM8Za7FXJgY3J8JsvBAbMPaKofQiTx5tSYqbfZ"
+				"bzz-raw://f0df45e998a56d9ef088384c08a64e831273d68493bf39234164bdef2b3b1b28",
+				"dweb:/ipfs/QmbKoshJSGWhTuhXcwWFqR8YDmPWj9o5bfk876HnPFAHuC"
 			]
 		},
 		"contracts/interface/IMMStore.sol": {
@@ -191,14 +183,6 @@
 			"urls": [
 				"bzz-raw://63a38eb391b16a55bb9e2f20d8ece72c84791f8fead9e27fecdd06248c8c21aa",
 				"dweb:/ipfs/QmXLCb7YyfPSScc47jejMP5uteCYqfSoEZe79ZykM3emK2"
-			]
-		},
-		"contracts/pair/IBTBPair.sol": {
-			"keccak256": "0x7c19266f42811ab9987147d53a6bf82e235a9cf6a1a90789f155964242c5dee8",
-			"license": "UNLICENSED",
-			"urls": [
-				"bzz-raw://7a1b799c6ebce197aec62f9cd7818cad49f6ac1cd36fb73fdd607429febafc85",
-				"dweb:/ipfs/QmesDpYbrwGGwQ2rWRYwfrRUrCr18JVFdcHQ38uVv2YX7P"
 			]
 		},
 		"lib/BokkyPooBahsDateTimeLibrary.sol": {

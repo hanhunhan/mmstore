@@ -129,12 +129,14 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
     function buyMachine(uint256 amount,uint256 bType)external {
 
        
-        if(ACCONFIG(acbConfig).buylocked() == 1) revert Buylock();
+        if(ACCONFIG(acbConfig).buylocked() == 3) revert Buylock();
         IERC20Upgradeable(_usdt()).transferFrom(msg.sender, address(this), amount / 2);
         if(bType == 0){
+            if(ACCONFIG(acbConfig).buylocked() == 1) revert Buylock();
 
             IERC20Upgradeable(ACCONFIG(acbConfig).mv()).transferFrom(msg.sender, ACCONFIG(acbConfig).mvCollectionAddress(), amount / 2 * ACCONFIG(acbConfig).swapRate() / 1000);
         } else {
+            if(ACCONFIG(acbConfig).buylocked() == 2 )revert Buylock();
              
             uint256 bPrice = _acbPrice();
             IERC20Upgradeable(_acb()).transferFrom(msg.sender, address(1), amount / 2 / bPrice * 1e18 );
