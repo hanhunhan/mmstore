@@ -82,8 +82,6 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
     ClaimOrder[] public claimDynOrderArr;
   
 
-
-
     error Registered();
     error NotSelf();
     error NoBuyMachine();
@@ -122,13 +120,13 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
         machineArr.push(MiningMachine(user,amount,block.timestamp,block.timestamp));
         isBuyMachine[msg.sender] = true;
 
-        _settleNoOrderReward();
-        _settleMaxOrderReward();
+        //_settleNoOrderReward();
+        //_settleMaxOrderReward();
     }
 
-    function buyMachine(uint256 amount,uint256 bType)external {
+    function buyMachine(uint256 amount,uint256 bType)external   {
 
-       
+        if(amount < 20 ether) revert Buylock();
         if(ACCONFIG(acbConfig).buylocked() == 3) revert Buylock();
         IERC20Upgradeable(_usdt()).transferFrom(msg.sender, address(this), amount / 2);
         if(bType == 0){
@@ -139,7 +137,12 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
             if(ACCONFIG(acbConfig).buylocked() == 2 )revert Buylock();
              
             uint256 bPrice = _acbPrice();
-            IERC20Upgradeable(_acb()).transferFrom(msg.sender, address(1), amount / 2 / bPrice * 1e18 );
+           
+            uint256 throwamount = amount/ bPrice/2 *1 ether ;
+            uint256 tthrowamount = throwamount *  80/100   ;
+           IERC20(_acb()).transferFrom(msg.sender, address(1), tthrowamount   );
+           IERC20(_acb()).transferFrom(msg.sender, ACCONFIG(acbConfig).platformAddress(),(throwamount - tthrowamount)   );
+           
         }
 
         userMachine[msg.sender].push(machineArr.length);
@@ -248,7 +251,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
 
 
     function swap(uint256 amount)external {
-        IERC20Upgradeable(_acb()).transferFrom(msg.sender,address(1),amount);//to zero
+         IERC20(_acb()).transferFrom(msg.sender,address(1),amount);//to zero
 
         (uint112 _reserve0, uint112 _reserve1,) = IACBPair_(_acbPair()).getReserves();
         (uint112 _reserveU,uint112 _reserveB) = IACBPair_(_acbPair()).token0() == _usdt() ? (_reserve0, _reserve1) : (_reserve1, _reserve0);
@@ -263,6 +266,7 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
 
         syncPool();
         autoCancelLp();
+ 
     }
 
 
@@ -522,9 +526,12 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
         return transferNoOrder[index];
     }
 
+
     function getMaxOrderReward(uint256 index) external view returns(TransferOrder memory) {
         return transferMaxOrder[index];
     }
+
+
 
 
     function userMachineArr(address user)external view returns(MachineResponse[] memory list){
@@ -539,10 +546,48 @@ contract MMStore is IMMStore,OwnableUpgradeable,UUPSUpgradeable{
         }
     }
 
-
-
  
+
+    function getNoOrderRewardArr() external view returns(TransferOrder[] memory) {
+            return transferNoOrder;
+    }
+
 
 
     
+}
+
+
+
+interface IERC20 {
+    function decimals() external view returns (uint256);
+
+    function symbol() external view returns (string memory);
+
+    function name() external view returns (string memory);
+
+    function totalSupply() external view returns (uint256);
+
+    function balanceOf(address who) external view returns (uint);
+
+    function transfer(
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
+
+    function allowance(
+        address owner,
+        address spender
+    ) external view returns (uint256);
+
+    function approve(address _spender, uint _value) external;
+
+    function transferFrom(address _from, address _to, uint256 _value) external ;
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 value
+    );
 }

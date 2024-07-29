@@ -6,8 +6,85 @@
 	"output": {
 		"abi": [
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "previousAdmin",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "newAdmin",
+						"type": "address"
+					}
+				],
+				"name": "AdminChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "beacon",
+						"type": "address"
+					}
+				],
+				"name": "BeaconUpgraded",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "version",
+						"type": "uint8"
+					}
+				],
+				"name": "Initialized",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "previousOwner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "implementation",
+						"type": "address"
+					}
+				],
+				"name": "Upgraded",
+				"type": "event"
+			},
+			{
 				"inputs": [],
-				"name": "acb",
+				"name": "MMstore",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -19,25 +96,80 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "acbPair",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "buylocked",
-				"outputs": [
+				"inputs": [
 					{
 						"internalType": "uint256",
 						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "NoOrder",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "number",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_store",
+						"type": "address"
+					}
+				],
+				"name": "changeMmstore",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "claimOrderArr",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "orderType",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "createTime",
 						"type": "uint256"
 					}
 				],
@@ -46,11 +178,126 @@
 			},
 			{
 				"inputs": [],
-				"name": "claimInterval",
+				"name": "getNoOrderRewardBy",
 				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "user",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "amount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "number",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "timestamp",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct IMMStore.TransferOrder[]",
+						"name": "NoOrderReward",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "start",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "end",
+						"type": "uint256"
+					}
+				],
+				"name": "getNoOrderRewardByIndex",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "user",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "amount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "number",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "timestamp",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct IMMStore.TransferOrder[]",
+						"name": "NoOrderReward",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_store",
+						"type": "address"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
 					{
 						"internalType": "uint256",
 						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "machineArr",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "computingPower",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "createTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "lastTime",
 						"type": "uint256"
 					}
 				],
@@ -59,11 +306,65 @@
 			},
 			{
 				"inputs": [],
-				"name": "machineExpireTime",
+				"name": "owner",
 				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "proxiableUUID",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "renounceOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
 					{
 						"internalType": "uint256",
 						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "transferMaxOrder",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "number",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
 						"type": "uint256"
 					}
 				],
@@ -71,126 +372,86 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "marketAddress",
-				"outputs": [
+				"inputs": [
 					{
 						"internalType": "address",
-						"name": "",
+						"name": "newOwner",
 						"type": "address"
 					}
 				],
-				"stateMutability": "view",
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "minePool",
-				"outputs": [
+				"inputs": [
 					{
 						"internalType": "address",
-						"name": "",
+						"name": "newImplementation",
 						"type": "address"
 					}
 				],
-				"stateMutability": "view",
+				"name": "upgradeTo",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "mv",
-				"outputs": [
+				"inputs": [
 					{
 						"internalType": "address",
-						"name": "",
+						"name": "newImplementation",
 						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "mvCollectionAddress",
-				"outputs": [
+					},
 					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
 					}
 				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "operator",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "platformAddress",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "swapRate",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "techAddress",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "usdt",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
+				"name": "upgradeToAndCall",
+				"outputs": [],
+				"stateMutability": "payable",
 				"type": "function"
 			}
 		],
 		"devdoc": {
+			"events": {
+				"AdminChanged(address,address)": {
+					"details": "Emitted when the admin account has changed."
+				},
+				"BeaconUpgraded(address)": {
+					"details": "Emitted when the beacon is changed."
+				},
+				"Initialized(uint8)": {
+					"details": "Triggered when the contract has been initialized or reinitialized."
+				},
+				"Upgraded(address)": {
+					"details": "Emitted when the implementation is upgraded."
+				}
+			},
 			"kind": "dev",
-			"methods": {},
+			"methods": {
+				"owner()": {
+					"details": "Returns the address of the current owner."
+				},
+				"proxiableUUID()": {
+					"details": "Implementation of the ERC1822 {proxiableUUID} function. This returns the storage slot used by the implementation. It is used to validate the implementation's compatibility when performing an upgrade. IMPORTANT: A proxy pointing at a proxiable contract should not be considered proxiable itself, because this risks bricking a proxy that upgrades to it, by delegating to itself until out of gas. Thus it is critical that this function revert if invoked through a proxy. This is guaranteed by the `notDelegated` modifier."
+				},
+				"renounceOwnership()": {
+					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+				},
+				"transferOwnership(address)": {
+					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+				},
+				"upgradeTo(address)": {
+					"details": "Upgrade the implementation of the proxy to `newImplementation`. Calls {_authorizeUpgrade}. Emits an {Upgraded} event."
+				},
+				"upgradeToAndCall(address,bytes)": {
+					"details": "Upgrade the implementation of the proxy to `newImplementation`, and subsequently execute the function call encoded in `data`. Calls {_authorizeUpgrade}. Emits an {Upgraded} event."
+				}
+			},
 			"version": 1
 		},
 		"userdoc": {
@@ -201,7 +462,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/MMEXT.sol": "ACCONFIG"
+			"contracts/MMEXT.sol": "MMEXT"
 		},
 		"evmVersion": "shanghai",
 		"libraries": {},
